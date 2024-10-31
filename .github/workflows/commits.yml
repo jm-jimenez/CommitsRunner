@@ -8,34 +8,11 @@ on:
     branches: ["master"]
 
 jobs:
-  pull_request:
-    name: "Check PR title"
-    runs-on: self-hosted
-    if: ${{ github.event_name == 'pull_request' }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Checking PR title is valid
-        env:
-          title: ${{ github.event.pull_request.title }}
-        run: |
-          xcodebuild -scheme CommitsRunner | xcpretty
-          ./product validate $title
+  use_share:
+    uses: ./shared.yml
+    with:
+      branch: "master"
+      title: ${{ github.event.pull_request.title }}
+      repo: "jm-jimenez/CommitsRunner.git"
+      type: {{ github.event_name }}
 
-  increment_version:
-    name: "Increment version"
-    runs-on: self-hosted
-    if: ${{ github.event_name == 'push' }}
-    steps:
-      - name: "Cloning"
-        run: |
-          rm -rf ./**
-          rm -rf ./.g*
-          ls -la
-          git clone git@github.com:jm-jimenez/TestingMyRunner.git .
-      - name: "Building command line tool"
-        run: |
-          xcodebuild -scheme CommitsRunner | xcpretty
-      - name: Updating tag
-        run: |
-          ./product update master

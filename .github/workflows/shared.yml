@@ -1,0 +1,54 @@
+name: Commits
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      title:
+        required: true
+        type: string
+      repo:
+        required: true
+        type: string
+      type:
+        required: true
+        type: string
+
+jobs:
+  pull_request:
+    name: "Check PR title"
+    runs-on: self-hosted
+    if: ${{ inputs.type == 'pull_request' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Checking PR title is valid
+        env:
+          title: ${{ inputs.title }}
+        run: |
+          xcodebuild -scheme CommitsRunner | xcpretty
+          ./product validate $title
+
+  increment_version:
+    name: "Increment version"
+    runs-on: self-hosted
+    if: ${{ inputs.type == 'push' }}
+    steps:
+      - name: "Cloning"
+        env:
+          repo: ${{ inputs.repo }}
+        run: |
+          rm -rf ./**
+          rm -rf ./.g*
+          ls -la
+          git clone git@github.com:$repo .
+      - name: "Building command line tool"
+        run: |
+          xcodebuild -scheme CommitsRunner | xcpretty
+      - name: Updating tag
+        env:
+          branch: ${{ inputs.branch }}
+        run: |
+          ./product update $branch
