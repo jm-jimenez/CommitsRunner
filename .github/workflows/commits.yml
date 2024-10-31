@@ -9,4 +9,6 @@ on:
 
 jobs:
   use_share:
-    uses: ./.github/workflows/shared.yml
+    steps:
+      - name: hey
+        uses: ./.github/workflows/shared.yml
