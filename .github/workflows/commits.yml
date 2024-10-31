@@ -13,7 +13,7 @@ jobs:
     runs-on: self-hosted
     uses: ./.github/workflows/shared.yml
     with:
-      branch: master
+      branch: "master"
       title: ${{ github.event.pull_request.title }}
-      repo: jm-jimenez/CommitsRunner.git
+      repo: "jm-jimenez/CommitsRunner.git"
       type: ${{ github.event_name }}
