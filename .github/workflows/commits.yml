@@ -3,7 +3,7 @@ name: Commits
 on:
   pull_request:
     branches: ["master"]
-    types: [opened, reopened, edited]
+    types: [opened, reopened, edited, synchronize]
   push:
     branches: ["master"]
 
