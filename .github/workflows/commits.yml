@@ -15,4 +15,3 @@ jobs:
       title: ${{ github.event.pull_request.title }}
       repo: "jm-jimenez/CommitsRunner.git"
       type: {{ github.event_name }}
-
