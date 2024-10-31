@@ -9,6 +9,8 @@ on:
 
 jobs:
   use_share:
+    name: holaaa
+    runs-on: self-hosted
     uses: ./.github/workflows/shared.yml
     with:
       branch: master
